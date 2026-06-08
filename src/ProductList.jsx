@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './ProductList.css'
 import CartItem from './CartItem';
+import { addItem } from './CartSlice.jsx';
 
 function ProductList({ onHomeClick }) {
     const [showCart, setShowCart] = useState(false);
@@ -254,6 +255,16 @@ function ProductList({ onHomeClick }) {
         e.preventDefault();
         setShowCart(false);
     };
+
+    const handleAddToCart = (e) => {
+      e.preventDefault();
+      dispatch(addItem(product));
+      setAddedToCart((prevState) => ({
+        ...prevState,
+        [product.name]: true,
+      }));
+    };      
+
     return (
         <div>
             <div className="navbar" style={styleObj}>

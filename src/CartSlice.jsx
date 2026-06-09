@@ -7,7 +7,11 @@ export const CartSlice = createSlice({
   },
   reducers: {
     addItem: (state, action) => {
-          
+      const { name, img, cost } = action.payload;
+      const existingItem = state.items.find(item => item.name === name);
+      if (existingItem) {
+        existingItem.quantity++;
+            
     },
 
     removeItem: (state, action) => {

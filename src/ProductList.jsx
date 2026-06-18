@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import './ProductList.css'
 import CartItem from './CartItem';
@@ -8,6 +9,7 @@ function ProductList({ onHomeClick }) {
     const [showCart, setShowCart] = useState(false);
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
     const [addedToCart, setAddedToCart] = useState({});
+    const [selectedCategory, setSelectedCategory] = useState("All");
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart.items);
     const plantsArray = [
@@ -277,6 +279,13 @@ function ProductList({ onHomeClick }) {
       return cart ? cart.reduce((total, item) => total + item.quantity, 0) : 0; 
     };
 
+    const filteredCategories =
+      selectedCategory === "All"
+        ? plantsArray
+        : plantsArray.filter(
+          category => category.category === selectedCategory
+        );
+
     return (
         <div>
             <div className="navbar" style={styleObj}>
@@ -298,6 +307,15 @@ function ProductList({ onHomeClick }) {
                 </div>
             </div>
             {!showCart ? (
+              <>
+                <div className="filter-buttons">
+                  <button onClick={() => setSelectedCategory("All")}>All</button>
+                  <button onClick={() => setSelectedCategory("Air Purifying")}>Air Purifying</button>
+                  <button onClick={() => setSelectedCategory("Low Maintenance")}>Low Maintenance</button>
+                  <button onClick={() => setSelectedCategory("Aromatic Fragrant")}>Aromatic Fragrant</button>
+                  <button onClick={() => setSelectedCategory("Medicinal")}>Medicinal</button>
+                  <button onClick={() => setSelectedCategory("Insect Repellent")}>Insect Repellent</button>
+                </div>
                 <div className="product-grid">
                   {plantsArray.map((category, index) => (
                     <div key={index}>
@@ -328,6 +346,7 @@ function ProductList({ onHomeClick }) {
                     </div>
                   ))}
                 </div>
+              </>
             ) : (
                 <CartItem onContinueShopping={handleContinueShopping} />
             )}

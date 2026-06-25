@@ -10,6 +10,7 @@ function ProductList({ onHomeClick }) {
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
     const [addedToCart, setAddedToCart] = useState({});
     const [selectedCategory, setSelectedCategory] = useState("All");
+    const [searchTerm, setSearchTerm] = useState("");
     const dispatch = useDispatch();
     const cart = useSelector(state => state.cart.items);
     const plantsArray = [
@@ -269,6 +270,8 @@ function ProductList({ onHomeClick }) {
       }));
     };      
 
+    const handleSearch
+
     const isInCart = (plantName) =>
       cart.some(item => item.name === plantName);
 
@@ -279,12 +282,20 @@ function ProductList({ onHomeClick }) {
       return cart ? cart.reduce((total, item) => total + item.quantity, 0) : 0; 
     };
 
+    const categories = [
+      "All",
+      ...plantsArray.map(category => category.category)
+    ];
+
     const filteredCategories =
       selectedCategory === "All"
         ? plantsArray
         : plantsArray.filter(
           category => category.category === selectedCategory
         );
+
+    const visibleCategories = 
+      
 
     return (
         <div>
@@ -309,15 +320,25 @@ function ProductList({ onHomeClick }) {
             {!showCart ? (
               <>
                 <div className="filter-buttons">
-                  <button onClick={() => setSelectedCategory("All")}>All</button>
-                  <button onClick={() => setSelectedCategory("Air Purifying")}>Air Purifying</button>
-                  <button onClick={() => setSelectedCategory("Low Maintenance")}>Low Maintenance</button>
-                  <button onClick={() => setSelectedCategory("Aromatic Fragrant")}>Aromatic Fragrant</button>
-                  <button onClick={() => setSelectedCategory("Medicinal")}>Medicinal</button>
-                  <button onClick={() => setSelectedCategory("Insect Repellent")}>Insect Repellent</button>
+                  {categories.map(category => (
+                    <button
+                      key={category}
+                      onClick={() => setSelectedCategory(category)}
+                    >
+                      {category}
+                    </button>
+                  ))}
+                </div>
+                <div className="search-input">
+                  <input
+                    type="text"
+                    placeholder="Search plants..."
+                    value={searchTerm}
+                    onChange={(e) => setSearchTerm(e.target.value)}
+                  />
                 </div>
                 <div className="product-grid">
-                  {plantsArray.map((category, index) => (
+                  {filteredCategories.map((category, index) => (
                     <div key={index}>
                       <h1>
                         <div>{category.category}</div>

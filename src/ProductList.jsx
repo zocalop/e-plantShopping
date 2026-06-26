@@ -353,7 +353,7 @@ function ProductList({ onHomeClick }) {
                 </div>
                 <div className="product-grid">
                   {nonEmptyCategories.map((category, index) => (
-                    <div key={index}>
+                    <div className="category-section" key={index}>
                       <h1>
                         <div>{category.category}</div>
                       </h1>

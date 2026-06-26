@@ -270,8 +270,6 @@ function ProductList({ onHomeClick }) {
       }));
     };      
 
-    const handleSearch
-
     const isInCart = (plantName) =>
       cart.some(item => item.name === plantName);
 
@@ -295,7 +293,23 @@ function ProductList({ onHomeClick }) {
         );
 
     const visibleCategories = 
-      
+      filteredCategories.map(category => {
+        const filteredPlants =
+          category.plants.filter(
+            plant =>
+              plant.name
+                .toLowerCase()
+                .includes(searchTerm.toLowerCase())
+          );
+        return {
+          ...category,
+          plants: filteredPlants
+        }
+      });
+
+    const nonEmptyCategories = visibleCategories.filter(category =>
+      category.plants.length > 0   
+    );
 
     return (
         <div>
@@ -338,7 +352,7 @@ function ProductList({ onHomeClick }) {
                   />
                 </div>
                 <div className="product-grid">
-                  {filteredCategories.map((category, index) => (
+                  {nonEmptyCategories.map((category, index) => (
                     <div key={index}>
                       <h1>
                         <div>{category.category}</div>
